@@ -10,7 +10,6 @@ body {
   min-height: 100vh;
   overflow: hidden;
   color: #e2e8f0;
-  transition: background 0.4s ease;
 }
 
 body.dark {
@@ -18,15 +17,13 @@ body.dark {
 }
 
 body.dark .card {
-  background: rgba(5, 10, 30, 0.88);
+  background: rgba(5, 10, 30, 0.9);
   backdrop-filter: blur(16px);
   border: 1px solid rgba(59, 130, 246, 0.4);
-  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5);
 }
 
 body.dark .title {
   color: #93c5fd;
-  text-shadow: 0 0 10px #1e40af40;
 }
 
 /* Animated stars background */
@@ -62,7 +59,6 @@ body::before {
   transform: translateX(100%);
   transition: transform 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1), opacity 0.5s ease;
   z-index: 1;
-  overflow: hidden;
 }
 
 .page.active {
@@ -76,10 +72,6 @@ body::before {
 }
 
 /* Countdown */
-.countdown-page {
-  justify-content: center;
-}
-
 .countdown-page h1 {
   font-size: clamp(5rem, 20vw, 12rem);
   background: linear-gradient(135deg, #60a5fa, #a78bfa, #818cf8);
@@ -197,13 +189,12 @@ body::before {
   z-index: 999;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   padding: 8px 16px;
   font-size: 1.2rem;
   margin-top: 0;
 }
 
-/* Typing containers - WALANG SARILING SCROLL */
+/* Typing containers */
 .typing, .typing-long, .final-message {
   font-size: clamp(0.9rem, 3.5vw, 1.15rem);
   line-height: 1.7;
@@ -212,8 +203,6 @@ body::before {
   white-space: pre-wrap;
   word-break: break-word;
   font-weight: 500;
-  overflow-y: visible;
-  max-height: none;
 }
 
 .typing-long {
@@ -235,22 +224,19 @@ body::before {
   50% { opacity: 0; }
 }
 
-/* Star container - WALANG SARILING SCROLL */
+/* Star container */
 .star-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 12px;
   margin: 20px 0 15px;
-  overflow-y: visible;
-  max-height: none;
 }
 
 .star {
   font-size: 2rem;
   filter: drop-shadow(0 0 8px #fbbf24);
   animation: starBounce 1.4s infinite alternate;
-  transition: 0.1s;
 }
 
 @keyframes starBounce {
@@ -267,32 +253,22 @@ body::before {
   color: #94a3b8;
 }
 
-/* ========== PAGE 4 - SCROLLABLE CARD ========== */
-#page4 {
-  overflow: hidden;
-}
-
-#page4 .card {
-  max-height: 85vh;
-  overflow-y: auto;
-}
-
-#page4 .typing-long {
-  overflow-y: visible;
-  max-height: none;
-}
-
-/* ========== PAGE 5 - SCROLLABLE CARD ========== */
+/* ========== SCROLLABLE CARDS PARA SA PAGE 4 AT 5 ========== */
+#page4,
 #page5 {
   overflow: hidden;
+  align-items: center;
+  justify-content: center;
 }
 
+#page4 .card,
 #page5 .card {
   max-height: 85vh;
-  overflow-y: auto;
+  overflow-y: scroll;
   display: block;
 }
 
+#page4 .typing-long,
 #page5 .final-message {
   overflow-y: visible;
   max-height: none;
@@ -301,7 +277,6 @@ body::before {
 #page5 .star-container {
   overflow-y: visible;
   max-height: none;
-  flex-wrap: wrap;
 }
 
 /* Responsive */
