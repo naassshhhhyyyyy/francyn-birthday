@@ -47,7 +47,7 @@ body::before {
   100% { background-position: 150px 150px; }
 }
 
-/* Pages */
+/* Pages - normal scroll para sa lahat */
 .page {
   position: absolute;
   width: 100%;
@@ -62,7 +62,7 @@ body::before {
   transform: translateX(100%);
   transition: transform 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1), opacity 0.5s ease;
   z-index: 1;
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 .page.active {
@@ -76,6 +76,10 @@ body::before {
 }
 
 /* Countdown */
+.countdown-page {
+  justify-content: center;
+}
+
 .countdown-page h1 {
   font-size: clamp(5rem, 20vw, 12rem);
   background: linear-gradient(135deg, #60a5fa, #a78bfa, #818cf8);
@@ -226,6 +230,10 @@ body::before {
   font-weight: 300;
 }
 
+.final-message::after {
+  content: none;
+}
+
 @keyframes blinkCursor {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
@@ -263,7 +271,12 @@ body::before {
   color: #94a3b8;
 }
 
-/* FINAL PAGE - CARD LANG ANG MAY SCROLL, WALA SA LOOB */
+/* PAGE 4 - mahaba ang message, need ng scroll sa buong page */
+#page4 {
+  overflow-y: auto;
+}
+
+/* PAGE 5 - SPECIAL: CARD LANG ANG MAY SCROLL, HINDI ANG BUONG PAGE */
 #page5 {
   overflow: hidden;
 }
@@ -277,11 +290,6 @@ body::before {
 #page5 .final-message {
   overflow-y: visible;
   max-height: none;
-  padding-bottom: 5px;
-}
-
-#page5 .final-message::after {
-  content: none;
 }
 
 #page5 .star-container {
