@@ -6,12 +6,12 @@ const totalPages = pages.length;
 let typingFlags = { short: false, long: false, final: false };
 let cakeClicked = false;
 
-// 🔒 BIRTHDAY LOCK (May 19, 2026)
+// 🔒 BIRTHDAY LOCK
 let isUnlocked = false;
 let lastTimeCheck = Date.now();
-// const targetDate = new Date("April 27, 2026 00:00:00").getTime();
 
-// FOR TESTING ONLY - Uncomment this line to test immediately (5 seconds)
+// CHANGE THIS DATE to actual birthday: "May 19, 2026 00:00:00"
+// For testing: 5 seconds from now
 const targetDate = new Date().getTime() + 5000;
 
 // DOM elements
@@ -107,11 +107,10 @@ function goToPage(pageNum) {
   newPage.classList.add('active');
   currentPage = pageNum;
 
-  // Start typing effects based on page
   if (currentPage === 3 && !typingFlags.short) {
     startTyping(
       'message3',
-      "💙 Happy Birthday, Francyn! 💙\n\nYou're like the deepest ocean — mysterious, beautiful, and full of wonders. Wishing you a year filled with dark blue skies, shining stars, and dreams that come true. ✨",
+      "Hoy Francyn! 👋\n\nHappy Birthday! 🎉 Sana masarap ulam mo today haha. Ingat ka palagi at mag-enjoy ka sa araw mo. Miss you! 💙",
       'nextMsg3Btn',
       'short'
     );
@@ -119,7 +118,7 @@ function goToPage(pageNum) {
   else if (currentPage === 4 && !typingFlags.long) {
     startTyping(
       'typing',
-      "Hello Francyn! 👋\n\nI made this website greeting just for you — because you deserve something special on your 19th birthday.\n\nNineteen years of you being in this world, and honestly? The world got brighter, calmer, and more beautiful. Your favorite color is dark blue, just like the night sky before dawn — mysterious, deep, and full of quiet strength.\n\nI hope this year brings you everything you've been wishing for. More laughter, more peace, more moments that take your breath away. You're not just growing older — you're growing into someone incredible.\n\nMay you always find reasons to smile, even on tough days. May you chase your dreams fearlessly. And may you always remember that someone out there thinks you're absolutely amazing.\n\nHappy 19th birthday, Francyn! Stay awesome. 💙🎂✨",
+      "Francyn,\n\nGinawa ko 'tong website greeting kasi gusto ko lang may maiba sa birthday mo. Alam ko favorite mo dark blue, kaya yan theme niya.\n\n19 ka na? Grabe ang bilis ng panahon! Sana maging masaya ka ngayong taon. Hindi man perfect ang buhay, pero sana lagi mo maalala na may mga tao na nagmamahal sa'yo.\n\nWish ko lang healthy ka palagi at maabot mo lahat ng pangarap mo. Enjoyin mo lang ang bawat araw, okay?\n\nHappy Birthday ulit, Francyn! Ingat. 🎂💙",
       'nextTypingBtn',
       'long'
     );
@@ -147,7 +146,7 @@ function startTyping(elementId, message, btnId, flagKey) {
     if (i < message.length) {
       element.textContent += message.charAt(i);
       i++;
-      setTimeout(typeChar, 28);
+      setTimeout(typeChar, 25);
     } else {
       if (btnId) {
         const btn = document.getElementById(btnId);
@@ -165,14 +164,14 @@ function startFinalMessage() {
   if (!finalDiv) return;
   
   finalDiv.textContent = "";
-  const message = "💫 One more thing... 💫\n\nYou are so much more than you know. Your presence is a gift to everyone around you. Keep shining, keep believing, and never forget — you are deeply loved.\n\nHappy Birthday, Francyn! May your year be as magical as you are. 🌙💙";
+  const message = "Isa lang masasabi ko...\n\nSalamat sa pagiging ikaw. Sana maging masaya ang 19th birthday mo. Dasurb mo lahat ng magagandang bagay sa mundo. 💙\n\nIngat lagi, Francyn! 🎂✨";
   
   let i = 0;
   function typeFinal() {
     if (i < message.length) {
       finalDiv.textContent += message.charAt(i);
       i++;
-      setTimeout(typeFinal, 30);
+      setTimeout(typeFinal, 28);
     } else {
       generateStars();
       typingFlags.final = true;
