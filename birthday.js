@@ -11,7 +11,7 @@ let cakeClicked = false;       // for animation once
 // 🔐 BIRTHDAY LOCK (May 19, 2026)
 let isUnlocked = false;
 let lastTimestamp = Date.now();
-const targetBirthday = new Date("May 19, 2026 00:00:00").getTime();
+const targetBirthday = new Date("April 24, 2026 00:00:00").getTime();
 
 // DOM Elements
 const countEl = document.getElementById('count');
