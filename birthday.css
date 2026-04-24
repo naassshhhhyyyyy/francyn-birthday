@@ -47,14 +47,14 @@ body::before {
   100% { background-position: 150px 150px; }
 }
 
-/* Pages - SCROLLABLE FIX */
+/* Pages */
 .page {
   position: absolute;
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   flex-direction: column;
   text-align: center;
   padding: 20px;
@@ -62,7 +62,7 @@ body::before {
   transform: translateX(100%);
   transition: transform 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1), opacity 0.5s ease;
   z-index: 1;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 .page.active {
@@ -108,7 +108,6 @@ body::before {
   width: 400px;
   transition: all 0.3s;
   border: 1px solid rgba(96, 165, 250, 0.3);
-  margin: 20px auto;
 }
 
 .long-card {
@@ -205,7 +204,7 @@ body::before {
   margin-top: 0;
 }
 
-/* Typing containers */
+/* Typing containers - walang sariling scroll */
 .typing, .typing-long, .final-message {
   font-size: clamp(0.9rem, 3.5vw, 1.15rem);
   line-height: 1.7;
@@ -214,14 +213,12 @@ body::before {
   white-space: pre-wrap;
   word-break: break-word;
   font-weight: 500;
-  min-height: 130px;
+  min-height: auto;
+  overflow-y: visible;
 }
 
 .typing-long {
   font-size: 0.95rem;
-  max-height: 55vh;
-  overflow-y: auto;
-  scrollbar-width: thin;
 }
 
 .typing::after, .typing-long::after, .final-message::after {
@@ -265,47 +262,28 @@ body::before {
   color: #94a3b8;
 }
 
-/* Scrollbar */
-.typing-long::-webkit-scrollbar {
-  width: 5px;
+/* FINAL PAGE - ISANG SCROLL LANG SA CARD, WALANG SCROLL SA MESSAGE */
+#page5 {
+  overflow: hidden;
 }
 
-.typing-long::-webkit-scrollbar-track {
-  background: #1e293b50;
-  border-radius: 10px;
-}
-
-.typing-long::-webkit-scrollbar-thumb {
-  background: #3b82f6;
-  border-radius: 10px;
-}
-
-/* FINAL PAGE SCROLL FIX */
 #page5 .card {
   max-height: 85vh;
   overflow-y: auto;
-  display: flex;
-  flex-direction: column;
 }
 
-.final-message {
-  max-height: 50vh;
-  overflow-y: auto;
-  scrollbar-width: thin;
+#page5 .final-message {
+  overflow-y: visible;
+  max-height: none;
+  padding-bottom: 5px;
 }
 
-.final-message::-webkit-scrollbar {
-  width: 4px;
+#page5 .final-message::after {
+  content: none;
 }
 
-.final-message::-webkit-scrollbar-track {
-  background: #1e293b50;
-  border-radius: 10px;
-}
-
-.final-message::-webkit-scrollbar-thumb {
-  background: #60a5fa;
-  border-radius: 10px;
+#page5 .star-container {
+  flex-wrap: wrap;
 }
 
 /* Responsive */
@@ -327,9 +305,5 @@ body::before {
   
   #page5 .card {
     max-height: 80vh;
-  }
-  
-  .final-message {
-    max-height: 45vh;
   }
 }
