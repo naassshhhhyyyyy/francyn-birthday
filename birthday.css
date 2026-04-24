@@ -1,4 +1,3 @@
-/* birthday.css */
 * {
   margin: 0;
   padding: 0;
@@ -7,50 +6,48 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  background: radial-gradient(circle at 10% 30%, #0a1128, #03071e);
+  background: radial-gradient(circle at 20% 30%, #0a0f2a, #020617, #00010a);
   min-height: 100vh;
   overflow: hidden;
-  color: #eef4ff;
-  transition: background 0.3s ease;
-  position: relative;
+  color: #e2e8f0;
+  transition: background 0.4s ease;
 }
 
-/* Dark blue already, but toggle adds deeper midnight effect */
 body.dark {
-  background: radial-gradient(circle at 30% 10%, #010118, #020024);
+  background: radial-gradient(circle at 30% 10%, #020617, #000000, #030014);
 }
 
 body.dark .card {
-  background: rgba(6, 12, 38, 0.85);
+  background: rgba(5, 10, 30, 0.88);
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(100, 150, 255, 0.35);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5);
 }
 
 body.dark .title {
   color: #93c5fd;
-  text-shadow: 0 0 8px #2563eb40;
+  text-shadow: 0 0 10px #1e40af40;
 }
 
-/* Animated nebula dots */
+/* Animated stars background */
 body::before {
   content: '';
   position: fixed;
   width: 100%;
   height: 100%;
-  background-image: radial-gradient(2px 2px at 20px 30px, #ffffff30, rgba(0,0,0,0));
+  background-image: radial-gradient(2px 2px at 20px 30px, #ffffff30, transparent);
   background-size: 55px 55px;
   pointer-events: none;
-  animation: driftStars 38s linear infinite;
+  animation: floatStars 45s linear infinite;
   z-index: 0;
 }
 
-@keyframes driftStars {
+@keyframes floatStars {
   0% { background-position: 0 0; }
-  100% { background-position: 120px 120px; }
+  100% { background-position: 150px 150px; }
 }
 
-/* pages */
+/* Pages */
 .page {
   position: absolute;
   width: 100%;
@@ -63,7 +60,7 @@ body::before {
   padding: 20px;
   opacity: 0;
   transform: translateX(100%);
-  transition: transform 0.65s cubic-bezier(0.2, 0.9, 0.3, 1.2), opacity 0.5s ease;
+  transition: transform 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1), opacity 0.5s ease;
   z-index: 1;
   overflow-y: auto;
 }
@@ -78,74 +75,72 @@ body::before {
   transform: translateX(-100%);
 }
 
-/* Countdown styling */
+/* Countdown */
 .countdown-page h1 {
   font-size: clamp(5rem, 20vw, 12rem);
-  background: linear-gradient(135deg, #7c9cff, #a0c0ff);
+  background: linear-gradient(135deg, #60a5fa, #a78bfa, #818cf8);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  text-shadow: 0 0 20px rgba(100, 150, 255, 0.6);
-  animation: pulseGlow 1.2s infinite ease;
+  animation: glowPulse 1s infinite ease;
   margin-bottom: 1rem;
 }
 
-.countdown-label {
-  font-size: 1.1rem;
-  letter-spacing: 2px;
-  font-weight: 300;
-  opacity: 0.9;
+@keyframes glowPulse {
+  0%, 100% { text-shadow: 0 0 5px #3b82f6; opacity: 0.9; transform: scale(1); }
+  50% { text-shadow: 0 0 25px #818cf8; opacity: 1; transform: scale(1.02); }
 }
 
-@keyframes pulseGlow {
-  0%, 100% { transform: scale(1); opacity: 0.9; text-shadow: 0 0 5px #4f7eff; }
-  50% { transform: scale(1.03); opacity: 1; text-shadow: 0 0 25px #7fa3ff; }
+.countdown-text {
+  font-size: 1rem;
+  letter-spacing: 2px;
+  opacity: 0.8;
 }
 
 /* Card */
 .card {
-  background: rgba(10, 20, 48, 0.75);
+  background: rgba(10, 20, 48, 0.8);
   backdrop-filter: blur(14px);
+  padding: 30px 25px;
   border-radius: 48px;
-  padding: 32px 28px;
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.4);
   max-width: 92%;
-  width: 420px;
+  width: 400px;
   transition: all 0.3s;
-  border: 1px solid rgba(90, 150, 255, 0.4);
-  box-shadow: 0 25px 40px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(96, 165, 250, 0.3);
 }
 
 .long-card {
-  width: 460px;
+  width: 450px;
   max-height: 85vh;
 }
 
 .title {
   font-family: 'Dancing Script', cursive;
-  font-size: clamp(2.1rem, 7vw, 3.4rem);
+  font-size: clamp(2rem, 8vw, 3.5rem);
   color: #bfd9ff;
-  margin-bottom: 18px;
+  margin-bottom: 15px;
   font-weight: 700;
-  letter-spacing: 1px;
 }
 
-/* Cake interactive */
-.cake-interactive {
-  font-size: clamp(5rem, 20vw, 9rem);
+/* Cake */
+.cake {
+  font-size: clamp(5rem, 18vw, 8rem);
   cursor: pointer;
-  transition: all 0.22s ease;
+  transition: transform 0.25s ease, filter 0.2s;
   display: inline-block;
-  filter: drop-shadow(0 10px 12px rgba(0, 0, 0, 0.3));
+  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3));
 }
 
-.cake-interactive:active {
-  transform: scale(0.96);
+.cake:hover {
+  transform: scale(1.08);
+  filter: drop-shadow(0 15px 25px rgba(96, 165, 250, 0.4));
 }
 
-.cake-message {
+.cake-hint {
   margin-top: 12px;
-  font-size: 0.9rem;
-  color: #b9d0ff;
+  font-size: 0.85rem;
+  color: #a5b4fc;
   font-weight: 500;
   animation: fadeInUp 0.5s;
 }
@@ -154,35 +149,39 @@ body::before {
   display: none;
 }
 
-/* Fly animation for cake spark */
-@keyframes candleWish {
-  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-  70% { transform: translateY(-180px) scale(1.3) rotate(10deg); opacity: 0.8; }
-  100% { transform: translateY(-300px) scale(0) rotate(20deg); opacity: 0; }
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* button */
+/* Cake wish animation */
+@keyframes wishFloat {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  60% { transform: translateY(-150px) scale(1.2) rotate(8deg); opacity: 0.8; }
+  100% { transform: translateY(-280px) scale(0.5) rotate(15deg); opacity: 0; }
+}
+
+/* Button */
 .btn {
-  margin-top: 32px;
+  margin-top: 28px;
   padding: 12px 28px;
   border: none;
   border-radius: 60px;
-  background: linear-gradient(105deg, #2b3b6e, #1b2a4e);
+  background: linear-gradient(105deg, #1e3a8a, #312e81);
   color: white;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 1rem;
   cursor: pointer;
-  box-shadow: 0 6px 18px rgba(0, 20, 60, 0.6);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   transition: 0.2s;
   letter-spacing: 0.5px;
-  backdrop-filter: blur(4px);
-  border: 0.5px solid #5f7fbf;
+  border: 0.5px solid #60a5fa50;
 }
 
 .btn:hover:not(:disabled) {
-  transform: scale(1.02);
-  background: linear-gradient(105deg, #3f5590, #263a64);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  transform: scale(1.03);
+  background: linear-gradient(105deg, #2563eb, #4338ca);
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
 }
 
 .btn:disabled {
@@ -191,85 +190,99 @@ body::before {
   transform: none;
 }
 
-.theme-toggle {
+/* Toggle button */
+.toggle {
   position: fixed;
-  top: 20px;
-  right: 20px;
+  top: 18px;
+  right: 18px;
   z-index: 999;
-  background: rgba(0, 0, 0, 0.55);
+  background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
-  font-size: 1.2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   padding: 8px 16px;
-  margin: 0;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  border: none;
+  font-size: 1.2rem;
+  margin-top: 0;
 }
 
 /* Typing containers */
-.typing-area, .letter-box, .final-wish {
-  font-size: clamp(0.9rem, 4vw, 1.2rem);
+.typing, .typing-long, .final-message {
+  font-size: clamp(0.9rem, 3.5vw, 1.15rem);
   line-height: 1.7;
   text-align: center;
-  padding: 12px 8px;
-  min-height: 130px;
-  font-weight: 500;
+  padding: 12px;
   white-space: pre-wrap;
   word-break: break-word;
+  font-weight: 500;
+  min-height: 130px;
 }
 
-.letter-box {
-  font-size: 0.98rem;
+.typing-long {
+  font-size: 0.95rem;
   max-height: 55vh;
   overflow-y: auto;
   scrollbar-width: thin;
 }
 
-.typing-area::after, .letter-box::after, .final-wish::after {
+.typing::after, .typing-long::after, .final-message::after {
   content: '|';
-  animation: blink 0.9s step-end infinite;
+  animation: blinkCursor 0.9s infinite;
   font-weight: 300;
-  margin-left: 2px;
 }
 
-@keyframes blink {
+@keyframes blinkCursor {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
 
-/* star field final surprise */
+/* Star container for final page */
 .star-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 12px;
-  margin: 25px 0 15px;
+  margin: 20px 0 15px;
   min-height: 90px;
 }
 
 .star {
-  font-size: 2.2rem;
-  filter: drop-shadow(0 0 6px #ffde9e);
-  animation: starFloat 1.6s infinite alternate;
+  font-size: 2rem;
+  filter: drop-shadow(0 0 8px #fbbf24);
+  animation: starBounce 1.4s infinite alternate;
   transition: 0.1s;
 }
 
-@keyframes starFloat {
-  0% { transform: translateY(0px) scale(1); opacity: 0.8;}
-  100% { transform: translateY(-8px) scale(1.1); opacity: 1;}
+@keyframes starBounce {
+  0% { transform: translateY(0px) scale(1); opacity: 0.7; }
+  100% { transform: translateY(-10px) scale(1.15); opacity: 1; }
 }
 
-.finish-note {
+.signature {
   font-size: 0.85rem;
   margin-top: 20px;
   font-style: italic;
   letter-spacing: 1px;
-  color: #b0ceff;
+  color: #94a3b8;
 }
 
-/* responsiveness */
-@media (max-width: 500px) {
+/* Scrollbar */
+.typing-long::-webkit-scrollbar {
+  width: 5px;
+}
+
+.typing-long::-webkit-scrollbar-track {
+  background: #1e293b50;
+  border-radius: 10px;
+}
+
+.typing-long::-webkit-scrollbar-thumb {
+  background: #3b82f6;
+  border-radius: 10px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
   .card {
-    padding: 24px 16px;
+    padding: 22px 18px;
     width: 90%;
   }
   .long-card {
@@ -277,24 +290,9 @@ body::before {
   }
   .btn {
     padding: 10px 20px;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
   }
   .star {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
   }
-}
-
-/* scrollbar customization */
-.letter-box::-webkit-scrollbar {
-  width: 5px;
-}
-
-.letter-box::-webkit-scrollbar-track {
-  background: #13204333;
-  border-radius: 10px;
-}
-
-.letter-box::-webkit-scrollbar-thumb {
-  background: #5f7fbf;
-  border-radius: 10px;
 }
