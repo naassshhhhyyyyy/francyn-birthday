@@ -195,12 +195,17 @@ function generateStars() {
   }
 }
 
-// ========== CAKE INTERACTION ==========
+// ========== CAKE INTERACTION (FIXED) ==========
 function handleCakeClick(e) {
   if (!isUnlocked) return;
   e.stopPropagation();
 
   if (!cakeClicked) {
+    // CHANGE FROM CUPCAKE 🧁 TO BIRTHDAY CAKE 🎂
+    if (cakeDiv.textContent === "🧁") {
+      cakeDiv.textContent = "🎂";
+    }
+    
     // Add wish animation
     cakeDiv.style.animation = 'wishFloat 0.7s forwards';
     setTimeout(() => {
