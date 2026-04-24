@@ -47,14 +47,14 @@ body::before {
   100% { background-position: 150px 150px; }
 }
 
-/* Pages */
+/* Pages - SCROLLABLE FIX */
 .page {
   position: absolute;
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   flex-direction: column;
   text-align: center;
   padding: 20px;
@@ -108,6 +108,7 @@ body::before {
   width: 400px;
   transition: all 0.3s;
   border: 1px solid rgba(96, 165, 250, 0.3);
+  margin: 20px auto;
 }
 
 .long-card {
@@ -279,6 +280,34 @@ body::before {
   border-radius: 10px;
 }
 
+/* FINAL PAGE SCROLL FIX */
+#page5 .card {
+  max-height: 85vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.final-message {
+  max-height: 50vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.final-message::-webkit-scrollbar {
+  width: 4px;
+}
+
+.final-message::-webkit-scrollbar-track {
+  background: #1e293b50;
+  border-radius: 10px;
+}
+
+.final-message::-webkit-scrollbar-thumb {
+  background: #60a5fa;
+  border-radius: 10px;
+}
+
 /* Responsive */
 @media (max-width: 480px) {
   .card {
@@ -294,5 +323,13 @@ body::before {
   }
   .star {
     font-size: 1.5rem;
+  }
+  
+  #page5 .card {
+    max-height: 80vh;
+  }
+  
+  .final-message {
+    max-height: 45vh;
   }
 }
