@@ -1,175 +1,132 @@
-// birthday.js - WORKING COUNTDOWN
-
-// ---------- STATE ----------
+// ========== STATE ==========
 let currentPage = 1;
 const pages = document.querySelectorAll('.page');
 const totalPages = pages.length;
-let typingFlags = { short: false, long: false };
+
+let typingFlags = { short: false, long: false, final: false };
 let cakeClicked = false;
-let countdownInterval = null;
 
-// 🔐 BIRTHDAY LOCK (May 19, 2026)
+// 🔒 BIRTHDAY LOCK (May 19, 2026)
 let isUnlocked = false;
-const targetBirthday = new Date("April 24, 2026 00:00:00").getTime();
+let lastTimeCheck = Date.now();
+const targetDate = new Date("April 24, 2026 00:00:00").getTime();
 
-// DOM Elements
+// FOR TESTING ONLY - Uncomment this line to test immediately (5 seconds)
+// const targetDate = new Date().getTime() + 5000;
+
+// DOM elements
 const countEl = document.getElementById('count');
 const cakeDiv = document.getElementById('cake');
-const cakeMsgDiv = document.getElementById('cakeMessage');
+const cakeHint = document.getElementById('cakeHint');
 const nextCakeBtn = document.getElementById('nextCakeBtn');
-const nextMsgBtn = document.getElementById('nextMsgBtn');
-const nextLetterBtn = document.getElementById('nextLetterBtn');
-const themeToggle = document.getElementById('themeToggle');
-const starFieldContainer = document.getElementById('starField');
+const nextMsg3Btn = document.getElementById('nextMsg3Btn');
+const nextTypingBtn = document.getElementById('nextTypingBtn');
+const themeToggleBtn = document.getElementById('themeToggle');
+const starContainer = document.getElementById('starContainer');
 
-// FOR TESTING - remove this line for actual birthday
-// const targetBirthday = new Date().getTime() + 5000; // UNCOMMENT TO TEST (5 seconds)
-
-console.log("Target birthday:", new Date(targetBirthday));
-console.log("Current time:", new Date());
-
-// ---------- COUNTDOWN FUNCTION (WORKING) ----------
-function updateCountdown() {
-  const now = new Date().getTime();
-  const distance = targetBirthday - now;
-  
-  console.log("Distance:", distance); // Check console to see if working
-  
-  // IF BIRTHDAY HAS ARRIVED
-  if (distance <= 0) {
-    if (countdownInterval) {
-      clearInterval(countdownInterval);
-      countdownInterval = null;
-    }
-    isUnlocked = true;
-    startUnlockSequence();
-    return;
+// ========== TIME VALIDATION ==========
+function validateTime() {
+  const now = Date.now();
+  if (now < lastTimeCheck - 5000) {
+    isUnlocked = false;
+    currentPage = 1;
+    pages.forEach((page, index) => {
+      page.classList.remove('active');
+      page.classList.add('prev');
+      if (index === 0) {
+        page.classList.add('active');
+        page.classList.remove('prev');
+      }
+    });
   }
-  
-  // CALCULATE TIME
-  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-  
-  // UPDATE DISPLAY - SIMPLE TEXT
-  if (countEl) {
-    countEl.innerHTML = `
-      <div style="font-size: 2rem; font-weight: 300;">${days}d ${hours}h ${minutes}m</div>
-      <div style="font-size: 4rem; margin-top: 15px; font-weight: 700;">${seconds}s</div>
-      <div style="font-size: 0.8rem; margin-top: 20px; opacity: 0.7;">until your special day ✨</div>
-    `;
-  } else {
-    console.error("countEl not found!");
-  }
+  lastTimeCheck = now;
 }
 
-function startUnlockSequence() {
-  let counter = 3;
-  countEl.innerHTML = `<div style="font-size: 5rem;">${counter}</div>`;
+setInterval(validateTime, 2000);
+
+// ========== COUNTDOWN ==========
+function startCountdown() {
+  const timer = setInterval(() => {
+    const now = Date.now();
+    const distance = targetDate - now;
+
+    if (distance <= 0) {
+      clearInterval(timer);
+      isUnlocked = true;
+      startFinalCountdown();
+      return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((distance / (1000 * 60)) % 60);
+    const seconds = Math.floor((distance / 1000) % 60);
+
+    countEl.innerHTML = `
+      <div style="font-size:2rem">${days}d ${hours}h ${minutes}m</div>
+      <div style="font-size:3.5rem; margin-top:10px">${seconds}s</div>
+    `;
+  }, 1000);
+}
+
+function startFinalCountdown() {
+  let count = 3;
+  countEl.innerHTML = `<div style="font-size:5rem">${count}</div>`;
   
-  const unlockInterval = setInterval(() => {
-    counter--;
-    if (counter > 0) {
-      countEl.innerHTML = `<div style="font-size: 5rem;">${counter}</div>`;
-    } else if (counter === 0) {
-      countEl.innerHTML = `<div style="font-size: 4rem;">🎉✨🎂✨🎉</div>`;
-    } else {
-      clearInterval(unlockInterval);
+  const timer = setInterval(() => {
+    count--;
+    if (count >= 0) {
+      if (count === 0) {
+        countEl.innerHTML = `<div style="font-size:4rem">🎉✨🎂✨🎉</div>`;
+      } else {
+        countEl.innerHTML = `<div style="font-size:5rem">${count}</div>`;
+      }
+    }
+    if (count < 0) {
+      clearInterval(timer);
       goToPage(2);
     }
   }, 1000);
 }
 
-// ---------- PAGE TRANSITION ----------
+// ========== PAGE TRANSITION ==========
 function goToPage(pageNum) {
+  validateTime();
   if (!isUnlocked && pageNum !== 1) return;
-  if (pageNum > totalPages || pageNum < 1) return;
-  
+  if (pageNum > totalPages) return;
+
   pages.forEach(page => {
     page.classList.remove('active');
     page.classList.add('prev');
   });
-  
-  const target = pages[pageNum - 1];
-  if (target) {
-    target.classList.remove('prev');
-    target.classList.add('active');
-    currentPage = pageNum;
-  }
-  
-  // START TYPING EFFECTS
+
+  const newPage = pages[pageNum - 1];
+  if (!newPage) return;
+
+  newPage.classList.remove('prev');
+  newPage.classList.add('active');
+  currentPage = pageNum;
+
+  // Start typing effects based on page
   if (currentPage === 3 && !typingFlags.short) {
-    startTypingEffect(
-      'shortMsg',
-      '✨ Happy Birthday, Francyn! ✨\n\nYou bring a beautiful light into this world — like deep ocean gems under starry skies. May your day be filled with laughter, love, and endless joy. 🎉💙',
-      'nextMsgBtn',
+    startTyping(
+      'message3',
+      "💙 Happy Birthday, Francyn! 💙\n\nYou're like the deepest ocean — mysterious, beautiful, and full of wonders. Wishing you a year filled with dark blue skies, shining stars, and dreams that come true. ✨",
+      'nextMsg3Btn',
       'short'
     );
-  } 
+  }
   else if (currentPage === 4 && !typingFlags.long) {
-    startTypingEffect(
-      'longLetter',
-      '💙 Dearest Francyn,\n\nI wanted to create something special just for you — because you deserve magic on your birthday. Turning another year older isnt just about counting candles; its about celebrating the incredible person you are becoming. Youre someone with a heart that shines in the darkest blue, determined, kind, and full of dreams.\n\nThis year, I hope every sunrise brings you hope, every challenge makes you stronger, and every quiet moment reminds you how deeply you are loved. The world is brighter because youre in it. Keep chasing stars, making art out of ordinary days, and never dim your glow.\n\nMay the universe send you oceans of happiness, exciting adventures, and peace that stays. Youre not just a friend — youre a constellation. ✨\n\nHappy, happy birthday! 💙🎂',
-      'nextLetterBtn',
+    startTyping(
+      'typing',
+      "Hello Francyn! 👋\n\nI made this website greeting just for you — because you deserve something special on your 19th birthday.\n\nNineteen years of you being in this world, and honestly? The world got brighter, calmer, and more beautiful. Your favorite color is dark blue, just like the night sky before dawn — mysterious, deep, and full of quiet strength.\n\nI hope this year brings you everything you've been wishing for. More laughter, more peace, more moments that take your breath away. You're not just growing older — you're growing into someone incredible.\n\nMay you always find reasons to smile, even on tough days. May you chase your dreams fearlessly. And may you always remember that someone out there thinks you're absolutely amazing.\n\nHappy 19th birthday, Francyn! Stay awesome. 💙🎂✨",
+      'nextTypingBtn',
       'long'
     );
-  } 
+  }
   else if (currentPage === 5 && !typingFlags.final) {
-    const finalDiv = document.getElementById('finalMessage');
-    if (finalDiv) {
-      finalDiv.textContent = "";
-      let finalText = "✨ May all your wishes bloom like midnight flowers under a silver moon. You are extraordinary, Francyn. Cheers to you and the amazing journey ahead! 🌙💫";
-      let idxFinal = 0;
-      function typeFinal() {
-        if (idxFinal < finalText.length) {
-          finalDiv.textContent += finalText.charAt(idxFinal);
-          idxFinal++;
-          setTimeout(typeFinal, 32);
-        } else {
-          generateStars();
-          typingFlags.final = true;
-        }
-      }
-      typeFinal();
-    } else {
-      generateStars();
-    }
+    startFinalMessage();
   }
-}
-
-function generateStars() {
-  if (!starFieldContainer) return;
-  starFieldContainer.innerHTML = '';
-  const starArray = ['🌟', '⭐', '✨', '💫', '🌠', '⭐️', '🌟'];
-  for (let i = 0; i < 18; i++) {
-    const starSpan = document.createElement('span');
-    starSpan.classList.add('star');
-    const randomStar = starArray[Math.floor(Math.random() * starArray.length)];
-    starSpan.textContent = randomStar;
-    starSpan.style.animationDelay = `${Math.random() * 0.7}s`;
-    starSpan.style.fontSize = `${1.2 + Math.random() * 2.2}rem`;
-    starFieldContainer.appendChild(starSpan);
-  }
-}
-
-function startTypingEffect(elementId, message, nextBtnId, flagKey) {
-  const element = document.getElementById(elementId);
-  if (!element) return;
-  element.textContent = '';
-  let i = 0;
-  function addChar() {
-    if (i < message.length) {
-      element.textContent += message.charAt(i);
-      i++;
-      setTimeout(addChar, 28);
-    } else {
-      const btn = document.getElementById(nextBtnId);
-      if (btn) btn.disabled = false;
-      typingFlags[flagKey] = true;
-    }
-  }
-  addChar();
 }
 
 function nextPage() {
@@ -178,47 +135,106 @@ function nextPage() {
   goToPage(currentPage + 1);
 }
 
-// ---------- CAKE INTERACTION ----------
-function handleCakeCelebration(e) {
+// ========== TYPING EFFECTS ==========
+function startTyping(elementId, message, btnId, flagKey) {
+  const element = document.getElementById(elementId);
+  if (!element) return;
+
+  element.textContent = "";
+  let i = 0;
+
+  function typeChar() {
+    if (i < message.length) {
+      element.textContent += message.charAt(i);
+      i++;
+      setTimeout(typeChar, 28);
+    } else {
+      if (btnId) {
+        const btn = document.getElementById(btnId);
+        if (btn) btn.disabled = false;
+      }
+      typingFlags[flagKey] = true;
+    }
+  }
+
+  typeChar();
+}
+
+function startFinalMessage() {
+  const finalDiv = document.getElementById('finalMessage');
+  if (!finalDiv) return;
+  
+  finalDiv.textContent = "";
+  const message = "💫 One more thing... 💫\n\nYou are so much more than you know. Your presence is a gift to everyone around you. Keep shining, keep believing, and never forget — you are deeply loved.\n\nHappy Birthday, Francyn! May your year be as magical as you are. 🌙💙";
+  
+  let i = 0;
+  function typeFinal() {
+    if (i < message.length) {
+      finalDiv.textContent += message.charAt(i);
+      i++;
+      setTimeout(typeFinal, 30);
+    } else {
+      generateStars();
+      typingFlags.final = true;
+    }
+  }
+  typeFinal();
+}
+
+function generateStars() {
+  if (!starContainer) return;
+  starContainer.innerHTML = '';
+  const stars = ['🌟', '⭐', '✨', '💫', '⭐', '🌟', '✨', '🌠'];
+  for (let i = 0; i < 24; i++) {
+    const star = document.createElement('span');
+    star.classList.add('star');
+    star.textContent = stars[Math.floor(Math.random() * stars.length)];
+    star.style.animationDelay = `${Math.random() * 0.8}s`;
+    star.style.fontSize = `${1.3 + Math.random() * 2}rem`;
+    starContainer.appendChild(star);
+  }
+}
+
+// ========== CAKE INTERACTION ==========
+function handleCakeClick(e) {
   if (!isUnlocked) return;
   e.stopPropagation();
-  if (cakeClicked) return;
-  
-  cakeDiv.style.animation = 'candleWish 0.6s forwards';
-  setTimeout(() => {
-    cakeDiv.style.animation = '';
-  }, 600);
-  
-  cakeDiv.style.filter = 'drop-shadow(0 0 12px #ffc285)';
-  setTimeout(() => {
-    cakeDiv.style.filter = '';
-  }, 800);
-  
-  cakeMsgDiv.classList.remove('hidden');
-  cakeMsgDiv.textContent = "💙 You made a wish! Happy birthday Francyn! 💙";
-  nextCakeBtn.disabled = false;
-  cakeClicked = true;
+
+  if (!cakeClicked) {
+    // Add wish animation
+    cakeDiv.style.animation = 'wishFloat 0.7s forwards';
+    setTimeout(() => {
+      cakeDiv.style.animation = '';
+    }, 700);
+    
+    cakeHint.classList.remove('hidden');
+    nextCakeBtn.disabled = false;
+    cakeClicked = true;
+  }
 }
 
-// ---------- THEME TOGGLE ----------
+// ========== THEME TOGGLE ==========
 function toggleTheme() {
   document.body.classList.toggle('dark');
-  themeToggle.textContent = document.body.classList.contains('dark') ? "☀️" : "🌙";
+  themeToggleBtn.textContent = document.body.classList.contains('dark') ? "☀️" : "🌙";
 }
 
-// ---------- SWIPE & KEYBOARD ----------
-let touchStartX = 0;
+// ========== SWIPE NAVIGATION ==========
+let touchStart = 0;
+
 document.addEventListener('touchstart', (e) => {
-  touchStartX = e.touches[0].clientX;
+  touchStart = e.touches[0].clientX;
 });
+
 document.addEventListener('touchend', (e) => {
   if (!isUnlocked) return;
-  const diff = touchStartX - e.changedTouches[0].clientX;
-  if (diff > 55 && currentPage < totalPages) {
+  const touchEnd = e.changedTouches[0].clientX;
+  if (touchStart - touchEnd > 55 && currentPage < totalPages) {
     nextPage();
   }
 });
 
+// ========== KEYBOARD NAVIGATION ==========
 document.addEventListener('keydown', (e) => {
   if (!isUnlocked) return;
   if (e.key === 'ArrowRight' && currentPage < totalPages) {
@@ -226,54 +242,52 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// ---------- ANTI-INSPECTOR ----------
+// ========== ANTI-INSPECT ==========
 document.addEventListener('contextmenu', e => e.preventDefault());
+
 document.addEventListener('keydown', function (e) {
-  if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key)) || (e.ctrlKey && e.key === 'U')) {
+  if (
+    e.key === 'F12' ||
+    (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key)) ||
+    (e.ctrlKey && e.key === 'U')
+  ) {
     e.preventDefault();
   }
 });
 
-// ---------- TIME TAMPER PROTECTION ----------
-let lastTimestamp = Date.now();
+// ========== DEVTOOLS DETECT ==========
 setInterval(() => {
-  const now = Date.now();
-  if (now < lastTimestamp - 2000) {
-    isUnlocked = false;
-    pages.forEach((page, idx) => {
-      page.classList.remove('active');
-      page.classList.add('prev');
-      if (idx === 0) {
-        page.classList.add('active');
-        page.classList.remove('prev');
-      }
-    });
-    currentPage = 1;
+  const devtoolsOpen = window.outerWidth - window.innerWidth > 160 ||
+    window.outerHeight - window.innerHeight > 160;
+  if (devtoolsOpen) {
+    document.body.innerHTML = `
+      <div style="display:flex;justify-content:center;align-items:center;height:100vh;font-family:Poppins;text-align:center;background:#020617;color:white;">
+        <div>
+          <h1>🚫 Nice Try 😏</h1>
+          <p>Let's keep the surprise magical!</p>
+        </div>
+      </div>
+    `;
   }
-  lastTimestamp = now;
-}, 2000);
+}, 1000);
 
-// ---------- EVENT LISTENERS ----------
-if (cakeDiv) cakeDiv.addEventListener('click', handleCakeCelebration);
-if (nextCakeBtn) nextCakeBtn.addEventListener('click', nextPage);
-if (nextMsgBtn) nextMsgBtn.addEventListener('click', nextPage);
-if (nextLetterBtn) nextLetterBtn.addEventListener('click', () => {
-  if (!isUnlocked) return;
-  goToPage(5);
-});
-if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
+// ========== EVENT LISTENERS ==========
+cakeDiv?.addEventListener('click', handleCakeClick);
+nextCakeBtn?.addEventListener('click', nextPage);
+nextMsg3Btn?.addEventListener('click', nextPage);
+nextTypingBtn?.addEventListener('click', nextPage);
+themeToggleBtn?.addEventListener('click', toggleTheme);
 
-// ---------- INITIALIZE ----------
-pages.forEach((pg, idx) => {
-  if (idx === 0) {
-    pg.classList.add('active');
-    pg.classList.remove('prev');
+// ========== INIT ==========
+pages.forEach((page, index) => {
+  if (index === 0) {
+    page.classList.add('active');
+    page.classList.remove('prev');
   } else {
-    pg.classList.add('prev');
+    page.classList.add('prev');
   }
 });
 
-// START COUNTDOWN
-console.log("Starting countdown...");
-updateCountdown(); // Run immediately
-countdownInterval = setInterval(updateCountdown, 1000);
+startCountdown();
+
+console.log("🔒 Locked until birthday... Happy Birthday Francyn! 💙");
