@@ -1,16 +1,15 @@
-// birthday.js (FIXED COUNTDOWN)
+// birthday.js - WORKING COUNTDOWN
 
 // ---------- STATE ----------
 let currentPage = 1;
 const pages = document.querySelectorAll('.page');
 const totalPages = pages.length;
 let typingFlags = { short: false, long: false };
-let cakeUnlocked = false;
 let cakeClicked = false;
+let countdownInterval = null;
 
 // 🔐 BIRTHDAY LOCK (May 19, 2026)
 let isUnlocked = false;
-let lastTimestamp = Date.now();
 const targetBirthday = new Date("April 24, 2026 00:00:00").getTime();
 
 // DOM Elements
@@ -23,41 +22,83 @@ const nextLetterBtn = document.getElementById('nextLetterBtn');
 const themeToggle = document.getElementById('themeToggle');
 const starFieldContainer = document.getElementById('starField');
 
-// ---------- TIME VALIDATION & TAMPER PROOF ----------
-function verifyTimeIntegrity() {
-  const now = Date.now();
-  if (now < lastTimestamp - 4000 || now > lastTimestamp + 3000000) {
-    isUnlocked = false;
-    pages.forEach((page, idx) => {
-      page.classList.remove('active');
-      page.classList.add('prev');
-      if (idx === 0) {
-        page.classList.add('active');
-        page.classList.remove('prev');
-      }
-    });
-    currentPage = 1;
+// FOR TESTING - remove this line for actual birthday
+// const targetBirthday = new Date().getTime() + 5000; // UNCOMMENT TO TEST (5 seconds)
+
+console.log("Target birthday:", new Date(targetBirthday));
+console.log("Current time:", new Date());
+
+// ---------- COUNTDOWN FUNCTION (WORKING) ----------
+function updateCountdown() {
+  const now = new Date().getTime();
+  const distance = targetBirthday - now;
+  
+  console.log("Distance:", distance); // Check console to see if working
+  
+  // IF BIRTHDAY HAS ARRIVED
+  if (distance <= 0) {
+    if (countdownInterval) {
+      clearInterval(countdownInterval);
+      countdownInterval = null;
+    }
+    isUnlocked = true;
+    startUnlockSequence();
+    return;
   }
-  lastTimestamp = now;
+  
+  // CALCULATE TIME
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  
+  // UPDATE DISPLAY - SIMPLE TEXT
+  if (countEl) {
+    countEl.innerHTML = `
+      <div style="font-size: 2rem; font-weight: 300;">${days}d ${hours}h ${minutes}m</div>
+      <div style="font-size: 4rem; margin-top: 15px; font-weight: 700;">${seconds}s</div>
+      <div style="font-size: 0.8rem; margin-top: 20px; opacity: 0.7;">until your special day ✨</div>
+    `;
+  } else {
+    console.error("countEl not found!");
+  }
 }
-setInterval(verifyTimeIntegrity, 1800);
+
+function startUnlockSequence() {
+  let counter = 3;
+  countEl.innerHTML = `<div style="font-size: 5rem;">${counter}</div>`;
+  
+  const unlockInterval = setInterval(() => {
+    counter--;
+    if (counter > 0) {
+      countEl.innerHTML = `<div style="font-size: 5rem;">${counter}</div>`;
+    } else if (counter === 0) {
+      countEl.innerHTML = `<div style="font-size: 4rem;">🎉✨🎂✨🎉</div>`;
+    } else {
+      clearInterval(unlockInterval);
+      goToPage(2);
+    }
+  }, 1000);
+}
 
 // ---------- PAGE TRANSITION ----------
 function goToPage(pageNum) {
-  verifyTimeIntegrity();
   if (!isUnlocked && pageNum !== 1) return;
   if (pageNum > totalPages || pageNum < 1) return;
-
+  
   pages.forEach(page => {
     page.classList.remove('active');
     page.classList.add('prev');
   });
+  
   const target = pages[pageNum - 1];
-  if (!target) return;
-  target.classList.remove('prev');
-  target.classList.add('active');
-  currentPage = pageNum;
-
+  if (target) {
+    target.classList.remove('prev');
+    target.classList.add('active');
+    currentPage = pageNum;
+  }
+  
+  // START TYPING EFFECTS
   if (currentPage === 3 && !typingFlags.short) {
     startTypingEffect(
       'shortMsg',
@@ -137,53 +178,6 @@ function nextPage() {
   goToPage(currentPage + 1);
 }
 
-// ✅ FIXED COUNTDOWN FUNCTION
-function startCountdownGuard() {
-  const interval = setInterval(() => {
-    const now = Date.now();
-    const distance = targetBirthday - now;
-    
-    // CHECK IF BIRTHDAY HAS ARRIVED
-    if (distance <= 0) {
-      clearInterval(interval);
-      isUnlocked = true;
-      startUnlockCountdownSequence();
-      return;
-    }
-    
-    // FORMAT THE COUNTDOWN DISPLAY
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    
-    // UPDATE THE DISPLAY
-    countEl.innerHTML = `
-      <div style="font-size: 2rem; letter-spacing: 2px;">${days}d ${hours}h ${minutes}m</div>
-      <div style="font-size: 3rem; margin-top: 12px;">${seconds}s</div>
-    `;
-  }, 1000);
-}
-
-function startUnlockCountdownSequence() {
-  let timer = 3;
-  countEl.innerHTML = `<div style="font-size: 6rem;">${timer}</div>`;
-  const cdInterval = setInterval(() => {
-    timer--;
-    if (timer >= 0) {
-      if (timer === 0) {
-        countEl.innerHTML = `<div style="font-size: 5rem;">🎉✨🎂✨🎉</div>`;
-      } else {
-        countEl.innerHTML = `<div style="font-size: 6rem;">${timer}</div>`;
-      }
-    }
-    if (timer < 0) {
-      clearInterval(cdInterval);
-      goToPage(2);
-    }
-  }, 1000);
-}
-
 // ---------- CAKE INTERACTION ----------
 function handleCakeCelebration(e) {
   if (!isUnlocked) return;
@@ -240,15 +234,34 @@ document.addEventListener('keydown', function (e) {
   }
 });
 
+// ---------- TIME TAMPER PROTECTION ----------
+let lastTimestamp = Date.now();
+setInterval(() => {
+  const now = Date.now();
+  if (now < lastTimestamp - 2000) {
+    isUnlocked = false;
+    pages.forEach((page, idx) => {
+      page.classList.remove('active');
+      page.classList.add('prev');
+      if (idx === 0) {
+        page.classList.add('active');
+        page.classList.remove('prev');
+      }
+    });
+    currentPage = 1;
+  }
+  lastTimestamp = now;
+}, 2000);
+
 // ---------- EVENT LISTENERS ----------
-cakeDiv?.addEventListener('click', handleCakeCelebration);
-nextCakeBtn?.addEventListener('click', nextPage);
-nextMsgBtn?.addEventListener('click', nextPage);
-nextLetterBtn?.addEventListener('click', () => {
+if (cakeDiv) cakeDiv.addEventListener('click', handleCakeCelebration);
+if (nextCakeBtn) nextCakeBtn.addEventListener('click', nextPage);
+if (nextMsgBtn) nextMsgBtn.addEventListener('click', nextPage);
+if (nextLetterBtn) nextLetterBtn.addEventListener('click', () => {
   if (!isUnlocked) return;
   goToPage(5);
 });
-themeToggle?.addEventListener('click', toggleTheme);
+if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
 
 // ---------- INITIALIZE ----------
 pages.forEach((pg, idx) => {
@@ -260,7 +273,7 @@ pages.forEach((pg, idx) => {
   }
 });
 
-// START THE COUNTDOWN
-startCountdownGuard();
-
-console.log("🎂 Happy Birthday Francyn — Countdown active!");
+// START COUNTDOWN
+console.log("Starting countdown...");
+updateCountdown(); // Run immediately
+countdownInterval = setInterval(updateCountdown, 1000);
