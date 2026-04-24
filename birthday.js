@@ -12,7 +12,7 @@ let lastTimeCheck = Date.now();
 
 // CHANGE THIS DATE to actual birthday
 // For testing: 5 seconds from now
-const targetDate = new Date().getTime() + 5000;
+const targetDate = new Date("April 27, 2026 00:00:00").getTime();
 
 // DOM elements
 const countEl = document.getElementById('count');
