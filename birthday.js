@@ -10,7 +10,7 @@ let cakeClicked = false;
 let isUnlocked = false;
 let lastTimeCheck = Date.now();
 
-// CHANGE THIS DATE to actual birthday: "May 19, 2026 00:00:00"
+// CHANGE THIS DATE to actual birthday
 // For testing: 5 seconds from now
 const targetDate = new Date().getTime() + 5000;
 
@@ -110,7 +110,7 @@ function goToPage(pageNum) {
   if (currentPage === 3 && !typingFlags.short) {
     startTyping(
       'message3',
-      "Hoy Francyn! 👋\n\nHappy Birthday! 🎉 Sana masarap ulam mo today haha. Ingat ka palagi at mag-enjoy ka sa araw mo. Miss you! 💙",
+      "Hoy Francyn! 👋\n\nHappy 21st Birthday! 🎉 Saya ng araw mo. Enjoy at mag-ingat! 💙",
       'nextMsg3Btn',
       'short'
     );
@@ -118,7 +118,7 @@ function goToPage(pageNum) {
   else if (currentPage === 4 && !typingFlags.long) {
     startTyping(
       'typing',
-      "Francyn,\n\nGinawa ko 'tong website greeting kasi gusto ko lang may maiba sa birthday mo. Alam ko favorite mo dark blue, kaya yan theme niya.\n\n19 ka na? Grabe ang bilis ng panahon! Sana maging masaya ka ngayong taon. Hindi man perfect ang buhay, pero sana lagi mo maalala na may mga tao na nagmamahal sa'yo.\n\nWish ko lang healthy ka palagi at maabot mo lahat ng pangarap mo. Enjoyin mo lang ang bawat araw, okay?\n\nHappy Birthday ulit, Francyn! Ingat. 🎂💙",
+      "Francyn,\n\nHappy 21st Birthday! 🎂\n\nGrabe, 21 ka na. Parang kailan lang nung nagkakilala tayo, pero ang bilis ng panahon. Sana sa edad mong ito, maging mas masaya ka, mas matapang, at mas maniwala ka sa sarili mo.\n\nGinawa ko itong website greeting para sa iyo kasi gusto kong maging memorable ang araw mo. Alam kong favorite mo ang dark blue, kaya yan ang theme. Parang gabing tahimik pero puno ng mga bituin at pangarap.\n\nSa maikling panahong magkakilala tayo, isa ka sa mga taong nagpasaya ng mga araw ko. Salamat sa mga kwentuhan, sa mga tawanan, at sa mga oras na magkasama tayo. Hindi man perpekto ang buhay, pero mas bearable dahil sa mga tao tulad mo.\n\nNgayong 21 ka na, sana maging maganda ang taon na ito para sa iyo. Sana maabot mo lahat ng pangarap mo. Sana laging may dahilan para ngumiti kahit mahirap ang mga bagay.\n\nWish ko para sa iyo. Good health. Peace of mind. At mga taong magmamahal sa iyo ng totoo.\n\nSalamat sa pagkakaibigan, Francyn. Sana magtagal pa tayo.\n\nHappy 21st Birthday ulit. Enjoyin mo ang araw mo. Dasurb mo yan. 🎉💙\n\nIngat ka palagi. 😊",
       'nextTypingBtn',
       'long'
     );
@@ -146,7 +146,7 @@ function startTyping(elementId, message, btnId, flagKey) {
     if (i < message.length) {
       element.textContent += message.charAt(i);
       i++;
-      setTimeout(typeChar, 25);
+      setTimeout(typeChar, 18);
     } else {
       if (btnId) {
         const btn = document.getElementById(btnId);
@@ -164,14 +164,14 @@ function startFinalMessage() {
   if (!finalDiv) return;
   
   finalDiv.textContent = "";
-  const message = "Isa lang masasabi ko...\n\nSalamat sa pagiging ikaw. Sana maging masaya ang 19th birthday mo. Dasurb mo lahat ng magagandang bagay sa mundo. 💙\n\nIngat lagi, Francyn! 🎂✨";
+  const message = "Bago ko tapusin ito.\n\nSalamat sa pagkakaibigan. Kahit bago pa lang tayo, ang saya ko na nakilala kita.\n\nSana sa susunod na birthday mo, nandito pa rin ako para batiin ka.\n\nDasurb mo ang lahat ng magagandang bagay sa mundo, Francyn. Huwag mong kakalimutan yun.\n\nHappy 21st Birthday ulit. 🎂✨💙\n\nwith love, lagi 🌙";
   
   let i = 0;
   function typeFinal() {
     if (i < message.length) {
       finalDiv.textContent += message.charAt(i);
       i++;
-      setTimeout(typeFinal, 28);
+      setTimeout(typeFinal, 20);
     } else {
       generateStars();
       typingFlags.final = true;
@@ -184,7 +184,7 @@ function generateStars() {
   if (!starContainer) return;
   starContainer.innerHTML = '';
   const stars = ['🌟', '⭐', '✨', '💫', '⭐', '🌟', '✨', '🌠'];
-  for (let i = 0; i < 24; i++) {
+  for (let i = 0; i < 30; i++) {
     const star = document.createElement('span');
     star.classList.add('star');
     star.textContent = stars[Math.floor(Math.random() * stars.length)];
@@ -194,18 +194,16 @@ function generateStars() {
   }
 }
 
-// ========== CAKE INTERACTION (FIXED) ==========
+// ========== CAKE INTERACTION ==========
 function handleCakeClick(e) {
   if (!isUnlocked) return;
   e.stopPropagation();
 
   if (!cakeClicked) {
-    // CHANGE FROM CUPCAKE 🧁 TO BIRTHDAY CAKE 🎂
     if (cakeDiv.textContent === "🧁") {
       cakeDiv.textContent = "🎂";
     }
     
-    // Add wish animation
     cakeDiv.style.animation = 'wishFloat 0.7s forwards';
     setTimeout(() => {
       cakeDiv.style.animation = '';
@@ -294,4 +292,4 @@ pages.forEach((page, index) => {
 
 startCountdown();
 
-console.log("🔒 Locked until birthday... Happy Birthday Francyn! 💙");
+console.log("🔒 Locked until birthday... Happy 21st Birthday Francyn! 💙");
