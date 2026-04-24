@@ -47,7 +47,7 @@ body::before {
   100% { background-position: 150px 150px; }
 }
 
-/* Pages - normal scroll para sa lahat */
+/* Pages */
 .page {
   position: absolute;
   width: 100%;
@@ -62,7 +62,7 @@ body::before {
   transform: translateX(100%);
   transition: transform 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1), opacity 0.5s ease;
   z-index: 1;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 .page.active {
@@ -101,7 +101,7 @@ body::before {
   opacity: 0.8;
 }
 
-/* Card */
+/* Card - default */
 .card {
   background: rgba(10, 20, 48, 0.8);
   backdrop-filter: blur(14px);
@@ -112,10 +112,6 @@ body::before {
   width: 400px;
   transition: all 0.3s;
   border: 1px solid rgba(96, 165, 250, 0.3);
-}
-
-.long-card {
-  width: 450px;
 }
 
 .title {
@@ -271,12 +267,22 @@ body::before {
   color: #94a3b8;
 }
 
-/* PAGE 4 - mahaba ang message, need ng scroll sa buong page */
+/* ========== PAGE 4 - SCROLLABLE CARD ========== */
 #page4 {
+  overflow: hidden;
+}
+
+#page4 .card {
+  max-height: 85vh;
   overflow-y: auto;
 }
 
-/* PAGE 5 - SPECIAL: CARD LANG ANG MAY SCROLL, HINDI ANG BUONG PAGE */
+#page4 .typing-long {
+  overflow-y: visible;
+  max-height: none;
+}
+
+/* ========== PAGE 5 - SCROLLABLE CARD ========== */
 #page5 {
   overflow: hidden;
 }
@@ -304,9 +310,6 @@ body::before {
     padding: 22px 18px;
     width: 90%;
   }
-  .long-card {
-    width: 92%;
-  }
   .btn {
     padding: 10px 20px;
     font-size: 0.9rem;
@@ -315,6 +318,7 @@ body::before {
     font-size: 1.5rem;
   }
   
+  #page4 .card,
   #page5 .card {
     max-height: 80vh;
   }
