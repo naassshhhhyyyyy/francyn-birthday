@@ -112,7 +112,6 @@ body::before {
 
 .long-card {
   width: 450px;
-  max-height: 85vh;
 }
 
 .title {
@@ -204,7 +203,7 @@ body::before {
   margin-top: 0;
 }
 
-/* Typing containers - walang sariling scroll */
+/* Typing containers - WALANG SARILING SCROLL */
 .typing, .typing-long, .final-message {
   font-size: clamp(0.9rem, 3.5vw, 1.15rem);
   line-height: 1.7;
@@ -213,15 +212,15 @@ body::before {
   white-space: pre-wrap;
   word-break: break-word;
   font-weight: 500;
-  min-height: auto;
   overflow-y: visible;
+  max-height: none;
 }
 
 .typing-long {
   font-size: 0.95rem;
 }
 
-.typing::after, .typing-long::after, .final-message::after {
+.typing::after, .typing-long::after {
   content: '|';
   animation: blinkCursor 0.9s infinite;
   font-weight: 300;
@@ -232,14 +231,15 @@ body::before {
   50% { opacity: 0; }
 }
 
-/* Star container for final page */
+/* Star container - WALANG SARILING SCROLL */
 .star-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 12px;
   margin: 20px 0 15px;
-  min-height: 90px;
+  overflow-y: visible;
+  max-height: none;
 }
 
 .star {
@@ -257,12 +257,13 @@ body::before {
 .signature {
   font-size: 0.85rem;
   margin-top: 20px;
+  margin-bottom: 10px;
   font-style: italic;
   letter-spacing: 1px;
   color: #94a3b8;
 }
 
-/* FINAL PAGE - ISANG SCROLL LANG SA CARD, WALANG SCROLL SA MESSAGE */
+/* FINAL PAGE - CARD LANG ANG MAY SCROLL, WALA SA LOOB */
 #page5 {
   overflow: hidden;
 }
@@ -270,6 +271,7 @@ body::before {
 #page5 .card {
   max-height: 85vh;
   overflow-y: auto;
+  display: block;
 }
 
 #page5 .final-message {
@@ -283,6 +285,8 @@ body::before {
 }
 
 #page5 .star-container {
+  overflow-y: visible;
+  max-height: none;
   flex-wrap: wrap;
 }
 
