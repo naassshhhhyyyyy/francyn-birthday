@@ -9,10 +9,10 @@ let cakeClicked = false;
 // 🔒 BIRTHDAY LOCK (May 19, 2026)
 let isUnlocked = false;
 let lastTimeCheck = Date.now();
-const targetDate = new Date("April 24, 2026 00:00:00").getTime();
+// const targetDate = new Date("April 27, 2026 00:00:00").getTime();
 
 // FOR TESTING ONLY - Uncomment this line to test immediately (5 seconds)
-// const targetDate = new Date().getTime() + 5000;
+const targetDate = new Date().getTime() + 5000;
 
 // DOM elements
 const countEl = document.getElementById('count');
