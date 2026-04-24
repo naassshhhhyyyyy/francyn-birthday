@@ -3,59 +3,57 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Happy Birthday Francyn ✨</title>
+  <title>Happy Birthday Francyn 🎂</title>
   <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎂%3C/text%3E%3C/svg%3E">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="birthday.css">
 </head>
 <body>
 
-<button class="btn theme-toggle" id="themeToggle">🌙</button>
+<button class="btn toggle" id="themeToggle">🌙</button>
 
 <!-- Page 1: Countdown -->
 <div class="page countdown-page active" id="page1">
-  <h1 id="count">3</h1>
-  <p class="countdown-label">moments until magic...</p>
+  <div class="countdown-wrapper">
+    <h1 id="count">3</h1>
+    <p class="countdown-text">until the magic begins ✨</p>
+  </div>
 </div>
 
-<!-- Page 2: Cake reveal -->
+<!-- Page 2: Cake -->
 <div class="page" id="page2">
   <div class="card">
-    <h1 class="title">Happy Birthday<br>Francyn ✨</h1>
-    <div id="cake" class="cake-interactive">🎂</div>
-    <div id="cakeMessage" class="cake-message hidden">🌟 Make a wish! Tap the cake 🌟</div>
+    <h1 class="title">Happy Birthday<br>Francyn 💙</h1>
+    <div id="cake" class="cake">🎂</div>
+    <div id="cakeHint" class="cake-hint hidden">✨ tap the cake to make a wish ✨</div>
     <button class="btn" id="nextCakeBtn" disabled>Next</button>
   </div>
 </div>
 
-<!-- Page 3: Warm Short Message -->
+<!-- Page 3: Short Message typing -->
 <div class="page" id="page3">
   <div class="card">
-    <div id="shortMsg" class="typing-area"></div>
-    <button class="btn" id="nextMsgBtn" disabled>Next</button>
+    <div id="message3" class="typing"></div>
+    <button class="btn" id="nextMsg3Btn" disabled>Next</button>
   </div>
 </div>
 
-<!-- Page 4: Long Heartfelt Letter -->
+<!-- Page 4: Long Heartfelt Message -->
 <div class="page" id="page4">
   <div class="card long-card">
-    <div id="longLetter" class="letter-box"></div>
-    <button class="btn" id="nextLetterBtn" disabled>Next</button>
+    <div id="typing" class="typing-long"></div>
+    <button class="btn" id="nextTypingBtn" disabled>Next</button>
   </div>
 </div>
 
-<!-- Page 5: Magical Closing & Surprise Stars -->
+<!-- Page 5: Final Magical Surprise -->
 <div class="page" id="page5">
   <div class="card">
-    <div id="finalMessage" class="final-wish"></div>
-    <div id="starField" class="star-container"></div>
-    <p class="finish-note">with love, always 🌙</p>
+    <div id="finalMessage" class="final-message"></div>
+    <div class="star-container" id="starContainer"></div>
+    <p class="signature">with love, always 🌙</p>
   </div>
 </div>
-
-<audio id="softChime" loop preload="auto">
-  <source src="#" type="audio/mpeg">
-</audio>
 
 <script src="birthday.js"></script>
 </body>
