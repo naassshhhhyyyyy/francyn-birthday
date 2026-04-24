@@ -110,7 +110,7 @@ function goToPage(pageNum) {
   if (currentPage === 3 && !typingFlags.short) {
     startTyping(
       'message3',
-      "Hoy Francyn! 👋\n\nHappy 21st Birthday! 🎉 Saya ng araw mo. Enjoy at mag-ingat! 💙",
+      "Hoy Francyn! 👋\n\nHappy 21st Birthday! 🎉 Sana masaya ang araw mo. Enjoy at mag-ingat! 💙",
       'nextMsg3Btn',
       'short'
     );
@@ -118,7 +118,7 @@ function goToPage(pageNum) {
   else if (currentPage === 4 && !typingFlags.long) {
     startTyping(
       'typing',
-      "Francyn,\n\nHappy 21st Birthday! 🎂\n\nGrabe, 21 ka na. Parang kailan lang nung nagkakilala tayo, pero ang bilis ng panahon. Sana sa edad mong ito, maging mas masaya ka, mas matapang, at mas maniwala ka sa sarili mo.\n\nGinawa ko itong website greeting para sa iyo kasi gusto kong maging memorable ang araw mo. Alam kong favorite mo ang dark blue, kaya yan ang theme. Parang gabing tahimik pero puno ng mga bituin at pangarap.\n\nSa maikling panahong magkakilala tayo, isa ka sa mga taong nagpasaya ng mga araw ko. Salamat sa mga kwentuhan, sa mga tawanan, at sa mga oras na magkasama tayo. Hindi man perpekto ang buhay, pero mas bearable dahil sa mga tao tulad mo.\n\nNgayong 21 ka na, sana maging maganda ang taon na ito para sa iyo. Sana maabot mo lahat ng pangarap mo. Sana laging may dahilan para ngumiti kahit mahirap ang mga bagay.\n\nWish ko para sa iyo. Good health. Peace of mind. At mga taong magmamahal sa iyo ng totoo.\n\nSalamat sa pagkakaibigan, Francyn. Sana magtagal pa tayo.\n\nHappy 21st Birthday ulit. Enjoyin mo ang araw mo. Dasurb mo yan. 🎉💙\n\nIngat ka palagi. 😊",
+      "Francyn,\n\nHappy 21st Birthday! 🎂\n\nGrabe, 21 ka na. Parang kailan lang nung nagkakilala tayo, pero ang bilis ng panahon. Sana sa edad mong 'to maging mas masaya ka, mas matapang, at mas maniwala ka sa sarili mo.\n\nGinawa ko itong website greeting para sa iyo kasi gusto kong maging memorable ang araw mo. Alam kong favorite mo ang blue, kaya yan ang theme.\n\nSa maikling panahong magkakilala tayo ay isa ka sa mga taong nagpasaya ng bawat araw ko. Salamat sa mga kwentuhan, sa mga tawanan, at sa mga oras na magkakasama tayo. Hindi man perpekto ang buhay pero mas bearable dahil sa mga tao tulad mo.\n\nNgayong 21 ka na sana ay maging maganda ang taon na ito para sa iyo. Sana maabot mo lahat ng pangarap mo. Sana laging may dahilan para ngumiti kahit mahirap ang mga bagay.\n\nWish ko para sa iyo. Good health. Peace of mind. At mga taong magmamahal sa iyo ng totoo.\n\nSalamat sa pagiging kaibigan, Francyn. Sana magtagal pa tayo.\n\nHappy 21st Birthday ulit. Enjoyin mo ang araw na ito para sa'yo. Dasurb mo yan. 🎉💙\n\nIngat ka palagi. 😊",
       'nextTypingBtn',
       'long'
     );
@@ -164,7 +164,7 @@ function startFinalMessage() {
   if (!finalDiv) return;
   
   finalDiv.textContent = "";
-  const message = "Bago ko tapusin ito.\n\nSalamat sa pagkakaibigan. Kahit bago pa lang tayo, ang saya ko na nakilala kita.\n\nSana sa susunod na birthday mo, nandito pa rin ako para batiin ka.\n\nDasurb mo ang lahat ng magagandang bagay sa mundo, Francyn. Huwag mong kakalimutan yun.\n\nHappy 21st Birthday ulit. 🎂✨💙\n\nwith love, lagi 🌙";
+  const message = "Bago ko tapusin 'to.\n\nSalamat sa pagkakaibigan. Ang saya ko na nakilala kita.\n\nSana sa susunod na birthday mo ay nandito pa rin ako para batiin ka.\n\nDasurb mo ang lahat ng magagandang bagay sa mundo, Francyn. Huwag mong kakalimutan yun.\n\nHappy 21st Birthday ulit. 🎂✨💙";
   
   let i = 0;
   function typeFinal() {
