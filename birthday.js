@@ -10,8 +10,7 @@ let cakeClicked = false;
 let isUnlocked = false;
 let lastTimeCheck = Date.now();
 
-// CHANGE THIS DATE to actual birthday
-// For testing: 5 seconds from now
+// CHANGE THIS DATE to actual birthday (April 27, 2026)
 const targetDate = new Date("April 27, 2026 00:00:00").getTime();
 
 // DOM elements
@@ -21,8 +20,122 @@ const cakeHint = document.getElementById('cakeHint');
 const nextCakeBtn = document.getElementById('nextCakeBtn');
 const nextMsg3Btn = document.getElementById('nextMsg3Btn');
 const nextTypingBtn = document.getElementById('nextTypingBtn');
-const themeToggleBtn = document.getElementById('themeToggle');
 const starContainer = document.getElementById('starContainer');
+
+// ========== SUPER ANTI-DEVTOOLS ==========
+
+// 1. Disable right click completely
+document.addEventListener('contextmenu', function(e) {
+  e.preventDefault();
+  return false;
+});
+
+// 2. Disable all keyboard shortcuts for devtools
+document.addEventListener('keydown', function(e) {
+  const key = e.key;
+  const ctrl = e.ctrlKey;
+  const shift = e.shiftKey;
+  
+  // F12
+  if (key === 'F12') {
+    e.preventDefault();
+    return false;
+  }
+  // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C
+  if (ctrl && shift && (key === 'I' || key === 'J' || key === 'C')) {
+    e.preventDefault();
+    return false;
+  }
+  // Ctrl+U (view source)
+  if (ctrl && key === 'u') {
+    e.preventDefault();
+    return false;
+  }
+  // Ctrl+Shift+K (Firefox)
+  if (ctrl && shift && key === 'K') {
+    e.preventDefault();
+    return false;
+  }
+  // Ctrl+Shift+E (Firefox)
+  if (ctrl && shift && key === 'E') {
+    e.preventDefault();
+    return false;
+  }
+  // Ctrl+S (save)
+  if (ctrl && key === 's') {
+    e.preventDefault();
+    return false;
+  }
+  // Ctrl+P (print)
+  if (ctrl && key === 'p') {
+    e.preventDefault();
+    return false;
+  }
+});
+
+// 3. Disable inspect element via browser menu (debugger loop)
+setInterval(function() {
+  debugger;
+}, 100);
+
+// 4. Disable console.log, warn, error
+console.log = function() {};
+console.warn = function() {};
+console.error = function() {};
+console.info = function() {};
+console.debug = function() {};
+
+// 5. Detect devtools opening via width/height difference
+let devtoolsOpen = false;
+const devtoolsChecker = setInterval(function() {
+  const widthDiff = window.outerWidth - window.innerWidth > 160;
+  const heightDiff = window.outerHeight - window.innerHeight > 160;
+  
+  if ((widthDiff || heightDiff) && !devtoolsOpen) {
+    devtoolsOpen = true;
+    document.body.innerHTML = `
+      <div style="display:flex;justify-content:center;align-items:center;height:100vh;font-family:Poppins;text-align:center;background:#020617;color:white;flex-direction:column;padding:20px;">
+        <div>
+          <h1 style="font-size:2rem;margin-bottom:20px;">🚫 Access Denied</h1>
+          <p style="margin-bottom:10px;">Please close DevTools to continue.</p>
+          <p style="font-size:0.8rem;opacity:0.7;">Let's keep the surprise magical! ✨</p>
+        </div>
+      </div>
+    `;
+  } else if (!widthDiff && !heightDiff && devtoolsOpen) {
+    devtoolsOpen = false;
+    location.reload();
+  }
+}, 1000);
+
+// 6. Disable text selection
+document.addEventListener('selectstart', function(e) {
+  e.preventDefault();
+  return false;
+});
+
+// 7. Disable copy/paste
+document.addEventListener('copy', function(e) {
+  e.preventDefault();
+  return false;
+});
+document.addEventListener('cut', function(e) {
+  e.preventDefault();
+  return false;
+});
+
+// 8. Disable dragging of images/elements
+document.querySelectorAll('img, div').forEach(el => {
+  el.setAttribute('draggable', 'false');
+});
+
+// 9. Block element inspection via DOM mutation
+const blockInspect = function() {
+  document.querySelectorAll('*').forEach(el => {
+    el.setAttribute('inspect', 'false');
+  });
+};
+setInterval(blockInspect, 500);
 
 // ========== TIME VALIDATION ==========
 function validateTime() {
@@ -63,23 +176,23 @@ function startCountdown() {
     const seconds = Math.floor((distance / 1000) % 60);
 
     countEl.innerHTML = `
-      <div style="font-size:2rem">${days}d ${hours}h ${minutes}m</div>
-      <div style="font-size:3.5rem; margin-top:10px">${seconds}s</div>
+      <div style="font-size:clamp(1rem, 5vw, 2rem)">${days}d ${hours}h ${minutes}m</div>
+      <div style="font-size:clamp(2rem, 10vw, 3.5rem); margin-top:10px">${seconds}s</div>
     `;
   }, 1000);
 }
 
 function startFinalCountdown() {
   let count = 3;
-  countEl.innerHTML = `<div style="font-size:5rem">${count}</div>`;
+  countEl.innerHTML = `<div style="font-size:clamp(3rem, 15vw, 5rem)">${count}</div>`;
   
   const timer = setInterval(() => {
     count--;
     if (count >= 0) {
       if (count === 0) {
-        countEl.innerHTML = `<div style="font-size:4rem">🎉✨🎂✨🎉</div>`;
+        countEl.innerHTML = `<div style="font-size:clamp(2rem, 10vw, 4rem)">🎉✨🎂✨🎉</div>`;
       } else {
-        countEl.innerHTML = `<div style="font-size:5rem">${count}</div>`;
+        countEl.innerHTML = `<div style="font-size:clamp(3rem, 15vw, 5rem)">${count}</div>`;
       }
     }
     if (count < 0) {
@@ -110,7 +223,7 @@ function goToPage(pageNum) {
   if (currentPage === 3 && !typingFlags.short) {
     startTyping(
       'message3',
-      "Hoy Francyn! 👋\n\nHappy 21st Birthday! 🎉 Sana masaya ang araw mo. Enjoy at mag-ingat! 💙",
+      "Hoy Francyn! 👋\n\nHappy Birthday! 🎉 Sana masaya ang araw mo. Enjoy at mag-ingat! 💙",
       'nextMsg3Btn',
       'short'
     );
@@ -118,7 +231,7 @@ function goToPage(pageNum) {
   else if (currentPage === 4 && !typingFlags.long) {
     startTyping(
       'typing',
-      "Francyn,\n\nHappy 21st Birthday! 🎂\n\nGrabe, 21 ka na. Parang kailan lang nung nagkakilala tayo, pero ang bilis ng panahon. Sana sa edad mong 'to maging mas masaya ka, mas matapang, at mas maniwala ka sa sarili mo.\n\nGinawa ko itong website greeting para sa iyo kasi gusto kong maging memorable ang araw mo. Alam kong favorite mo ang blue, kaya yan ang theme.\n\nSa maikling panahong magkakilala tayo ay isa ka sa mga taong nagpasaya ng bawat araw ko. Salamat sa mga kwentuhan, sa mga tawanan, at sa mga oras na magkakasama tayo. Hindi man perpekto ang buhay pero mas bearable dahil sa mga tao tulad mo.\n\nNgayong 21 ka na sana ay maging maganda ang taon na ito para sa iyo. Sana maabot mo lahat ng pangarap mo. Sana laging may dahilan para ngumiti kahit mahirap ang mga bagay.\n\nWish ko para sa iyo. Good health. Peace of mind. At mga taong magmamahal sa iyo ng totoo.\n\nSalamat sa pagiging kaibigan, Francyn. Sana magtagal pa tayo.\n\nHappy 21st Birthday ulit. Enjoyin mo ang araw na ito para sa'yo. Dasurb mo yan. 🎉💙\n\nIngat ka palagi. 😊",
+      "Francyn,\n\nHappy Birthday! 🎂\n\nGrabe, parang kailan lang nung nagkakilala tayo, pero ang bilis ng panahon. Sana sa araw na 'to maging mas masaya ka, mas matapang, at mas maniwala ka sa sarili mo.\n\nGinawa ko itong website greeting para sa iyo kasi gusto kong maging memorable ang araw mo. Alam kong favorite mo ang blue, kaya yan ang theme.\n\nSa maikling panahong magkakilala tayo ay isa ka sa mga taong nagpasaya ng bawat araw ko. Salamat sa mga kwentuhan, sa mga tawanan, at sa mga oras na magkakasama tayo. Hindi man perpekto ang buhay pero mas bearable dahil sa mga tao tulad mo.\n\nSana maging maganda ang taon na ito para sa iyo. Sana maabot mo lahat ng pangarap mo. Sana laging may dahilan para ngumiti kahit mahirap ang mga bagay.\n\nWish ko para sa iyo. Good health. Peace of mind. At mga taong magmamahal sa iyo ng totoo.\n\nSalamat sa pagiging kaibigan, Francyn. Sana magtagal pa tayo.\n\nHappy Birthday ulit. Enjoyin mo ang araw na ito para sa'yo. Dasurb mo yan. 🎉💙\n\nIngat ka palagi. 😊",
       'nextTypingBtn',
       'long'
     );
@@ -164,7 +277,7 @@ function startFinalMessage() {
   if (!finalDiv) return;
   
   finalDiv.textContent = "";
-  const message = "Bago ko tapusin 'to.\n\nSalamat sa pagkakaibigan. Ang saya ko na nakilala kita.\n\nSana sa susunod na birthday mo ay nandito pa rin ako para batiin ka.\n\nDasurb mo ang lahat ng magagandang bagay sa mundo, Francyn. Huwag mong kakalimutan yun.\n\nHappy 21st Birthday ulit. 🎂✨💙";
+  const message = "Bago ko tapusin 'to.\n\nSalamat sa pagkakaibigan. Ang saya ko na nakilala kita.\n\nSana sa susunod na birthday mo ay nandito pa rin ako para batiin ka.\n\nDasurb mo ang lahat ng magagandang bagay sa mundo, Francyn. Huwag mong kakalimutan yun.\n\nHappy Birthday ulit. 🎂✨💙";
   
   let i = 0;
   function typeFinal() {
@@ -215,12 +328,6 @@ function handleCakeClick(e) {
   }
 }
 
-// ========== THEME TOGGLE ==========
-function toggleTheme() {
-  document.body.classList.toggle('dark');
-  themeToggleBtn.textContent = document.body.classList.contains('dark') ? "☀️" : "🌙";
-}
-
 // ========== SWIPE NAVIGATION ==========
 let touchStart = 0;
 
@@ -244,41 +351,11 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// ========== ANTI-INSPECT ==========
-document.addEventListener('contextmenu', e => e.preventDefault());
-
-document.addEventListener('keydown', function (e) {
-  if (
-    e.key === 'F12' ||
-    (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key)) ||
-    (e.ctrlKey && e.key === 'U')
-  ) {
-    e.preventDefault();
-  }
-});
-
-// ========== DEVTOOLS DETECT ==========
-setInterval(() => {
-  const devtoolsOpen = window.outerWidth - window.innerWidth > 160 ||
-    window.outerHeight - window.innerHeight > 160;
-  if (devtoolsOpen) {
-    document.body.innerHTML = `
-      <div style="display:flex;justify-content:center;align-items:center;height:100vh;font-family:Poppins;text-align:center;background:#020617;color:white;">
-        <div>
-          <h1>🚫 Nice Try 😏</h1>
-          <p>Let's keep the surprise magical!</p>
-        </div>
-      </div>
-    `;
-  }
-}, 1000);
-
 // ========== EVENT LISTENERS ==========
 cakeDiv?.addEventListener('click', handleCakeClick);
 nextCakeBtn?.addEventListener('click', nextPage);
 nextMsg3Btn?.addEventListener('click', nextPage);
 nextTypingBtn?.addEventListener('click', nextPage);
-themeToggleBtn?.addEventListener('click', toggleTheme);
 
 // ========== INIT ==========
 pages.forEach((page, index) => {
@@ -291,5 +368,3 @@ pages.forEach((page, index) => {
 });
 
 startCountdown();
-
-console.log("🔒 Locked until birthday... Happy 21st Birthday Francyn! 💙");
