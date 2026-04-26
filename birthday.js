@@ -22,120 +22,120 @@ const nextMsg3Btn = document.getElementById('nextMsg3Btn');
 const nextTypingBtn = document.getElementById('nextTypingBtn');
 const starContainer = document.getElementById('starContainer');
 
-// ========== SUPER ANTI-DEVTOOLS ==========
+// ========== ANTI-DEVTOOLS (naka-comment, pwedeng ibalik) ==========
 
 // 1. Disable right click completely
-document.addEventListener('contextmenu', function(e) {
-  e.preventDefault();
-  return false;
-});
+// document.addEventListener('contextmenu', function(e) {
+//   e.preventDefault();
+//   return false;
+// });
 
 // 2. Disable all keyboard shortcuts for devtools
-document.addEventListener('keydown', function(e) {
-  const key = e.key;
-  const ctrl = e.ctrlKey;
-  const shift = e.shiftKey;
-  
-  // F12
-  if (key === 'F12') {
-    e.preventDefault();
-    return false;
-  }
-  // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C
-  if (ctrl && shift && (key === 'I' || key === 'J' || key === 'C')) {
-    e.preventDefault();
-    return false;
-  }
-  // Ctrl+U (view source)
-  if (ctrl && key === 'u') {
-    e.preventDefault();
-    return false;
-  }
-  // Ctrl+Shift+K (Firefox)
-  if (ctrl && shift && key === 'K') {
-    e.preventDefault();
-    return false;
-  }
-  // Ctrl+Shift+E (Firefox)
-  if (ctrl && shift && key === 'E') {
-    e.preventDefault();
-    return false;
-  }
-  // Ctrl+S (save)
-  if (ctrl && key === 's') {
-    e.preventDefault();
-    return false;
-  }
-  // Ctrl+P (print)
-  if (ctrl && key === 'p') {
-    e.preventDefault();
-    return false;
-  }
-});
+// document.addEventListener('keydown', function(e) {
+//   const key = e.key;
+//   const ctrl = e.ctrlKey;
+//   const shift = e.shiftKey;
+//   
+//   // F12
+//   if (key === 'F12') {
+//     e.preventDefault();
+//     return false;
+//   }
+//   // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C
+//   if (ctrl && shift && (key === 'I' || key === 'J' || key === 'C')) {
+//     e.preventDefault();
+//     return false;
+//   }
+//   // Ctrl+U (view source)
+//   if (ctrl && key === 'u') {
+//     e.preventDefault();
+//     return false;
+//   }
+//   // Ctrl+Shift+K (Firefox)
+//   if (ctrl && shift && key === 'K') {
+//     e.preventDefault();
+//     return false;
+//   }
+//   // Ctrl+Shift+E (Firefox)
+//   if (ctrl && shift && key === 'E') {
+//     e.preventDefault();
+//     return false;
+//   }
+//   // Ctrl+S (save)
+//   if (ctrl && key === 's') {
+//     e.preventDefault();
+//     return false;
+//   }
+//   // Ctrl+P (print)
+//   if (ctrl && key === 'p') {
+//     e.preventDefault();
+//     return false;
+//   }
+// });
 
 // 3. Disable inspect element via browser menu (debugger loop)
-setInterval(function() {
-  debugger;
-}, 100);
+// setInterval(function() {
+//   debugger;
+// }, 100);
 
 // 4. Disable console.log, warn, error
-console.log = function() {};
-console.warn = function() {};
-console.error = function() {};
-console.info = function() {};
-console.debug = function() {};
+// console.log = function() {};
+// console.warn = function() {};
+// console.error = function() {};
+// console.info = function() {};
+// console.debug = function() {};
 
 // 5. Detect devtools opening via width/height difference
-let devtoolsOpen = false;
-const devtoolsChecker = setInterval(function() {
-  const widthDiff = window.outerWidth - window.innerWidth > 160;
-  const heightDiff = window.outerHeight - window.innerHeight > 160;
-  
-  if ((widthDiff || heightDiff) && !devtoolsOpen) {
-    devtoolsOpen = true;
-    document.body.innerHTML = `
-      <div style="display:flex;justify-content:center;align-items:center;height:100vh;font-family:Poppins;text-align:center;background:#020617;color:white;flex-direction:column;padding:20px;">
-        <div>
-          <h1 style="font-size:2rem;margin-bottom:20px;">🚫 Access Denied</h1>
-          <p style="margin-bottom:10px;">Please close DevTools to continue.</p>
-          <p style="font-size:0.8rem;opacity:0.7;">Let's keep the surprise magical! ✨</p>
-        </div>
-      </div>
-    `;
-  } else if (!widthDiff && !heightDiff && devtoolsOpen) {
-    devtoolsOpen = false;
-    location.reload();
-  }
-}, 1000);
+// let devtoolsOpen = false;
+// const devtoolsChecker = setInterval(function() {
+//   const widthDiff = window.outerWidth - window.innerWidth > 160;
+//   const heightDiff = window.outerHeight - window.innerHeight > 160;
+//   
+//   if ((widthDiff || heightDiff) && !devtoolsOpen) {
+//     devtoolsOpen = true;
+//     document.body.innerHTML = `
+//       <div style="display:flex;justify-content:center;align-items:center;height:100vh;font-family:Poppins;text-align:center;background:#020617;color:white;flex-direction:column;padding:20px;">
+//         <div>
+//           <h1 style="font-size:2rem;margin-bottom:20px;">🚫 Access Denied</h1>
+//           <p style="margin-bottom:10px;">Please close DevTools to continue.</p>
+//           <p style="font-size:0.8rem;opacity:0.7;">Let's keep the surprise magical! ✨</p>
+//         </div>
+//       </div>
+//     `;
+//   } else if (!widthDiff && !heightDiff && devtoolsOpen) {
+//     devtoolsOpen = false;
+//     location.reload();
+//   }
+// }, 1000);
 
 // 6. Disable text selection
-document.addEventListener('selectstart', function(e) {
-  e.preventDefault();
-  return false;
-});
+// document.addEventListener('selectstart', function(e) {
+//   e.preventDefault();
+//   return false;
+// });
 
 // 7. Disable copy/paste
-document.addEventListener('copy', function(e) {
-  e.preventDefault();
-  return false;
-});
-document.addEventListener('cut', function(e) {
-  e.preventDefault();
-  return false;
-});
+// document.addEventListener('copy', function(e) {
+//   e.preventDefault();
+//   return false;
+// });
+// document.addEventListener('cut', function(e) {
+//   e.preventDefault();
+//   return false;
+// });
 
 // 8. Disable dragging of images/elements
-document.querySelectorAll('img, div').forEach(el => {
-  el.setAttribute('draggable', 'false');
-});
+// document.querySelectorAll('img, div').forEach(el => {
+//   el.setAttribute('draggable', 'false');
+// });
 
 // 9. Block element inspection via DOM mutation
-const blockInspect = function() {
-  document.querySelectorAll('*').forEach(el => {
-    el.setAttribute('inspect', 'false');
-  });
-};
-setInterval(blockInspect, 500);
+// const blockInspect = function() {
+//   document.querySelectorAll('*').forEach(el => {
+//     el.setAttribute('inspect', 'false');
+//   });
+// };
+// setInterval(blockInspect, 500);
 
 // ========== TIME VALIDATION ==========
 function validateTime() {
